@@ -80,8 +80,15 @@
 
 ; TODO: this is gonna be a big one
 (defn request
-  [req]
-  (.request js/m (clj->js req)))
+  ([req]
+   (.request js/m (clj->js req)))
+  ([req callback]
+   {:pre [(fn? callback)]}
+   (.then (.request js/m (clj->js req)) callback))
+  ([req callback error]
+   {:pre [(fn? callback)
+          (fn? error)]}
+   (.then (.request js/m (clj->js req)) callback error)))
 
 (defn deferred
   [])
