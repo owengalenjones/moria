@@ -26,3 +26,5 @@ Mithril is a client-side MVC framework - a tool to organize code in a way that i
 
   * Virtual DOM diffing and compilable templates
   * Intelligent auto-redrawing system
+ 
+Thank you [Leo Horie](https://github.com/lhorie)
