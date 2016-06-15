@@ -103,3 +103,18 @@
 (defn promise [d] (.-promise d))
 (defn then [p f] (.then p f))
 (defn sync [promises] (.sync js/m (clj->js promises)))
+
+(defn render
+  ([elm children]
+   (render elm children false))
+  ([elm children force-recreate]
+   (.render js/m elm children force-recreate)))
+
+(defn redraw-strategy
+  ([] ((.. js/m -redraw -strategy)))
+  ([strategy] (.strategy js/m.redraw strategy)))
+
+(defn start-computation [] (.startComputation js/m))
+(defn end-computation   [] (.endComputation js/m))
+
+(defn deps [mock-global] (.deps js/m mock-global))
