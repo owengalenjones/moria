@@ -38,4 +38,5 @@ These attributes combined with ClojureScript make Moria a fantastic choice for w
     * improve this with some idiomatic CLJS patterns
  
 Thank you [Leo Horie](https://github.com/lhorie)
+
 Mithril.js is Copyright (c) 2014 Leo Horie
