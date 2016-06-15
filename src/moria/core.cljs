@@ -102,3 +102,4 @@
 (defn resolve [d v] (.resolve d v))
 (defn promise [d] (.-promise d))
 (defn then [p f] (.then p f))
+(defn sync [promises] (.sync js/m (clj->js promises)))
