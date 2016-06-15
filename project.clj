@@ -1,6 +1,7 @@
 (defproject moria "0.1.0"
   :description "CLJS Wrapper for Mithril.js"
   :url "https://github.com/owengalenjones/moria"
+  :signing {:gpg-key "owengalenjones@gmail.com"}
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.8.51"]
                  [cljsjs/mithril "0.2.4-0"]]

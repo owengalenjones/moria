@@ -2,6 +2,8 @@
 
 ClojureScript wrapper for [mithril.js](https://github.com/lhorie/mithril.js)
 
+[![Clojars Project](https://img.shields.io/clojars/v/moria.svg)](https://clojars.org/moria)
+
   * Mithril [website](http://mithril.js.org/) (documentation, examples etc.)
   * Mithril [blog](http://lhorie.github.io/mithril-blog)
   * Mithril [mailing list](https://groups.google.com/forum/#!forum/mithriljs)
