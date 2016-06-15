@@ -2,6 +2,10 @@
 
 ClojureScript wrapper for [mithril.js](https://github.com/lhorie/mithril.js)
 
+  * Mithril [website](http://mithril.js.org/) (documentation, examples etc.)
+  * Mithril [blog](http://lhorie.github.io/mithril-blog)
+  * Mithril [mailing list](https://groups.google.com/forum/#!forum/mithriljs)
+
 ## What is Mithril? (from the mithril.js README)
 
 Mithril is a client-side MVC framework - a tool to organize code in a way that is easy to think about and to maintain.
