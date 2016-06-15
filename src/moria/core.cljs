@@ -78,7 +78,7 @@
   [s]
   (js->clj (.parseQueryString js/m.route s)))
 
-; TODO: this is gonna be a big one
+; TODO: this should be channels
 (defn request
   ([req]
    (.request js/m (clj->js req)))
@@ -90,29 +90,15 @@
           (fn? error)]}
    (.then (.request js/m (clj->js req)) callback error)))
 
-(defn deferred
-  [])
+(defn request-sync
+  [req error]
+  (let [response (atom nil)]
+    (-> (.request js/m (clj->js req))
+        (.then #(reset! response %)
+               error))
+    response))
 
-(defn sync
-  [])
-
-(defn trust
-  [])
-
-(defn render
-  [])
-
-(defn redraw
-  [])
-
-(defn redraw-strategy
-  [])
-
-(defn start-computation
-  [])
-
-(defn end-computation
-  [])
-
-(defn deps
-  [])
+(defn deferred [] (.deferred js/m))
+(defn resolve [d v] (.resolve d v))
+(defn promise [d] (.-promise d))
+(defn then [p f] (.then p f))
