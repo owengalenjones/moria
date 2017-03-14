@@ -1,12 +1,55 @@
 (ns moria.core
   (:require cljsjs.mithril
-            [moria.utils :refer [valid-component?]]))
+            [moria.utils :refer [valid-component?]]
+            [clojure.string :as string]))
 
 (enable-console-print!)
 
 (defn m
-  [& args]
-  (apply js/m (clj->js args)))
+  ([selector]
+   (js/m selector))
+  ([selector attr]
+   (js/m selector (clj->js attr)))
+  ([selector attr & children]
+   (js/m selector (clj->js attr) (clj->js children))))
+
+(defn render
+  [element vnodes]
+  (.render js/m element vnodes))
+
+(defn mount
+  [element component]
+  (.mount js/m element component))
+
+(defn route
+  [element root routes]
+  (.route js/m element root (clj->js routes)))
+
+(def http-methods
+  #{"GET"
+    "POST"
+    "PUT"
+    "PATCH"
+    "DELETE"
+    "HEAD"
+    "OPTIONS"})
+
+(defn request
+  ([url]
+   (request url {:method "GET"}))
+  ([url {:keys [method] :as options}]
+   (when (not (contains? http-methods method))
+     (throw (js/Error. (str method " not in (" (string/join ", " http-methods) ")"))))
+   (.request js/m url (clj->js options))))
+
+(defn jsonp
+  ([url]
+   (jsonp url {}))
+  ([url options]
+   (.jsonp js/m url (clj->js options))) )
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defn component
   ([c]
@@ -28,16 +71,6 @@
 (defn withAttr
   [property f]
   (.withAttr js/m property f))
-
-(defn mount
-  [elm c]
-  (.mount js/m elm c))
-
-(defn route
-  ([]
-   (.route js/m))
-  ([element root routes]
-   (.route js/m element root (clj->js routes))))
 
 ; breaking change in Mithril this would be m.route
 ; here the route fn is already overloaded enough!
@@ -79,17 +112,6 @@
   (js->clj (.parseQueryString js/m.route s)))
 
 ; TODO: this should be channels
-(defn request
-  ([req]
-   (.request js/m (clj->js req)))
-  ([req callback]
-   {:pre [(fn? callback)]}
-   (.then (.request js/m (clj->js req)) callback))
-  ([req callback error]
-   {:pre [(fn? callback)
-          (fn? error)]}
-   (.then (.request js/m (clj->js req)) callback error)))
-
 (defn request-sync
   [req error]
   (let [response (atom nil)]
@@ -103,12 +125,6 @@
 (defn promise [d] (.-promise d))
 (defn then [p f] (.then p f))
 (defn sync [promises] (.sync js/m (clj->js promises)))
-
-(defn render
-  ([elm children]
-   (render elm children false))
-  ([elm children force-recreate]
-   (.render js/m elm children force-recreate)))
 
 (defn redraw-strategy
   ([] ((.. js/m -redraw -strategy)))
