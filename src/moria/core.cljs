@@ -48,89 +48,26 @@
   ([url options]
    (.jsonp js/m url (clj->js options))) )
 
+(defn with-attr
+  ([attr-name callback]
+   (.withAttr js/m attr-name callback))
+  ([attr-name callback this-arg]
+   (.withAttr js/m attr-name callback this-arg)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;
+(defn trust
+  [html]
+  (.trust js/m html))
 
-(defn component
-  ([c]
-   (component c {}))
-  ([c attrs & args]
-   {:pre [(valid-component? c)]}
-   ; breaking change args are applied in Mithril
-   ; m.component(component, attrs, a1, a2, a3 ... aN)
-   ; in here the view / controller fn in component needs to account for
-   ; this
-   (.component js/m (clj->js c) (clj->js attrs) (clj->js args))))
+(defn fragment
+  [attrs children]
+  (.fragment js/m (clj->js attrs) (clj->js children)))
 
-(defn prop
-  ([]
-   (prop nil))
-  ([val]
-   (.prop js/m val)))
+(defn redraw
+  []
+  (.redraw js/m))
 
-(defn withAttr
-  [property f]
-  (.withAttr js/m property f))
+(def version (.-version js/m))
 
-; breaking change in Mithril this would be m.route
-; here the route fn is already overloaded enough!
-(def route-config (.-route js/m))
-
-; breaking change in Mithril this would be m.route
-; the the route fn is already overloaded enough!
-(defn route-to
-  ([path]
-   {:pre [(string? path)]}
-   (.route js/m path))
-  ([path params]
-   {:pre [(string? path)]}
-   (.route js/m path params))
-  ([path params replace-history]
-   {:pre [(string? path)]}
-   (.route js/m path params replace-history)))
-
-; breaking
-(defn route-mode
-  [mode]
-  (set! (.. js/m -route -mode) mode))
-
-; breaking
-(defn route-param
-  ([]
-   (.param js/m.route))
-  ([k]
-   (.param js/m.route k)))
-
-; breaking
-(defn build-query-string
-  [data]
-  (.buildQueryString js/m.route (clj->js data)))
-
-; breaking
-(defn parse-query-string
-  [s]
-  (js->clj (.parseQueryString js/m.route s)))
-
-; TODO: this should be channels
-(defn request-sync
-  [req error]
-  (let [response (atom nil)]
-    (-> (.request js/m (clj->js req))
-        (.then #(reset! response %)
-               error))
-    response))
-
-(defn deferred [] (.deferred js/m))
-(defn resolve [d v] (.resolve d v))
-(defn promise [d] (.-promise d))
-(defn then [p f] (.then p f))
-(defn sync [promises] (.sync js/m (clj->js promises)))
-
-(defn redraw-strategy
-  ([] ((.. js/m -redraw -strategy)))
-  ([strategy] (.strategy js/m.redraw strategy)))
-
-(defn start-computation [] (.startComputation js/m))
-(defn end-computation   [] (.endComputation js/m))
-
-(defn deps [mock-global] (.deps js/m mock-global))
+(defn promise
+  [f]
+  (js/Promise. f))
