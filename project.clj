@@ -1,4 +1,4 @@
-(defproject moria "1.0.1-0-SNAPSHOT"
+(defproject moria "1.0.1-0"
   :description "CLJS Wrapper for Mithril.js"
   :url "https://github.com/owengalenjones/moria"
   :signing {:gpg-key "owengalenjones@gmail.com"}
