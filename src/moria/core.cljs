@@ -7,11 +7,11 @@
 
 (defn m
   ([selector]
-   (js/m selector))
+   (js/m (name selector)))
   ([selector attr]
-   (js/m selector (clj->js attr)))
+   (js/m (name selector) (clj->js attr)))
   ([selector attr & children]
-   (js/m selector (clj->js attr) (clj->js children))))
+   (js/m (name selector) (clj->js attr) (clj->js children))))
 
 (defn render
   [element vnodes]
